@@ -14,7 +14,7 @@ This project investigates a marketing intervention launched in January 2018 targ
 To understand the true impact of the January 2018 intervention. First, I plotted the monthly sales trend across all Brazilian states. Then, I isolated the top 10 highest-performing states. Rio de Janeiro (RJ) was removed to serve as the target, while the remaining 9 states acted as the "donor pool" to build the Synthetic Control model.
 
 ### 1. Bayesian Structural Time Series (Causal Impact)
-![Causal Impact Results](Graph_Result/image_1)
+![Causal Impact Results](Graph_Result/image_1.png)
 
 The three panels above provide a comprehensive view of the intervention's effect:
 * **Top Panel (Actual vs. Counterfactual):** The solid black dots represent RJ's actual sales, while the orange line represents the "Counterfactual" (what RJ's sales *would have been* without the intervention). The model achieved a high pre-intervention $R^2$ of 0.87, proving its high accuracy. Post-intervention (red line), actual sales plummeted far below the expected trend.
@@ -22,7 +22,7 @@ The three panels above provide a comprehensive view of the intervention's effect
 * **Bottom Panel (Cumulative Impact):** This illustrates the compounding negative effect over time, showing a massive cumulative loss in sales value by the end of the observation period.
 
 ### 2. Synthetic Control Weights: Building "Synthetic RJ"
-![Donor States Contribution](Graph_Result/image_2)
+![Other States Contribution](Graph_Result/image_2.png)
 
 To create the counterfactual, the model assigned weights to the 9 donor states based on their historical similarity to RJ. 
 * **Insight:** The model heavily relied on **Minas Gerais (MG - 39.8%)**, **Santa Catarina (SC - 33.5%)**, and **Sao Paulo (SP - 26.4%)**. These three states effectively "cloned" RJ's pre-intervention behavior, validating that the control group is structurally robust.
@@ -33,26 +33,26 @@ To create the counterfactual, the model assigned weights to the 9 donor states b
 With the Causal Impact model confirming a significant drop, I shift to EDA to investigate the *why*. Was it a marketing failure, a change in product trends, or an external confounder?
 
 ### EDA 1: Market Behavior Correlation
-![Correlation Matrix](Graph_Result/image_3)
+![Correlation Matrix](Graph_Result/image_3.png)
 
 **Insight:** Before diving deeper, I validated the other states (Minas Gerais, Santa Catarina, and Sao Paulo) using a correlation matrix. RJ shows an exceptionally high correlation with MG (0.93), SP (0.88), and SC (0.87). This confirms that historically, these markets move in tandem. If RJ suddenly drops while the others don't, it is a localized issue, not a nationwide macroeconomic trend.
 
 ### EDA 2: Logistics Analysis - The Confounding Factor
-![Freight Cost Investigation](Graph_Result/image_4)
+![Freight Cost Investigation](Graph_Result/image_4.png)
 
 * **Pre-2018:** The blue line (RJ) and gray dashed line (Control Average) moved in parallel with a consistent gap.
 * **Post-2018 (Intervention):** Immediately after January 2018, RJ's freight values spiked drastically, reaching nearly 26 BRL, while the other states stabilized around 22 BRL.
 * **Business Logic:** The decline in sales was not caused by a flawed marketing campaign. Customers in RJ likely saw the ads and wanted to buy, but experienced "cart abandonment" upon seeing exorbitant shipping costs at checkout. The freight surge acted as a massive disincentive.
 
 ### EDA 3: Product DNA Validation (Eliminating Product Bias)
-![Product Category Distribution](Graph_Result/image_5)
+![Product Category Distribution](Graph_Result/image_5.png)
 
 **Insight:** Could the drop be because the products sold simply lost popularity in RJ? 
 * **Identical Twins:** Looking at the bar charts, the product category distribution (DNA) between RJ and MG is almost identical (e.g., *cama_mesa_banho*, *beleza_saude*). 
 * Since MG's sales remained stable while RJ's dropped, we can confidently eliminate "product trend changes" as a confounding variable. The problem is definitively *how* the products get there (logistics), not *what* the products are. This also explains why our model achieved a high $R^2=0.87$.
 
 ### EDA 4: Pre-Intervention Promotional Sensitivity (Black Friday Effect)
-![Promotional Sensitivity](Graph_Result/image_6)
+![Promotional Sensitivity](Graph_Result/image_6.png)
 
 **Insight:** Finally, we investigated if RJ consumers are simply unresponsive to marketing. 
 * Looking at the yellow highlight (Black Friday 2017), RJ (Blue Line) demonstrated a massive, highly responsive demand spike, perfectly mirroring SP and MG.
